@@ -131,6 +131,11 @@ func (a *Apt) Download() (string, error) {
 		if output, err := a.command.Output("/", "curl", args...); err != nil {
 			return output, err
 		}
+		packageFile2 := filepath.Join(a.installDir, "archives", filepath.Base(pkg))
+		args2 := []string{"-s", "-L", "-z", packageFile2, "-o", packageFile2, pkg}
+		if output, err := a.command.Output("/", "curl", args2...); err != nil {
+			return output, err
+		}
 	}
 
 	// download all repo packages in one invocation
