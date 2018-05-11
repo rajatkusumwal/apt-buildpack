@@ -131,13 +131,11 @@ func (a *Apt) Download() (string, error) {
 		if output, err := a.command.Output("/", "curl", args...); err != nil {
 			return output, err
 		}
-		fmt.Println("test deb args %v",args)
 	}
 
 	// download all repo packages in one invocation
 	aptArgs := append(a.options, "-y", "--force-yes", "-d", "install", "--reinstall")
 	args := append(aptArgs, repoPackages...)
-	fmt.Println("test repo args %v",args)
 	if output, err := a.command.Output("/", "apt-get", args...); err != nil {
 		return output, err
 	}
@@ -152,6 +150,7 @@ func (a *Apt) Install() (string, error) {
 	}
 
 	for _, file := range files {
+		fmt.Println("test arch files %v",file)
 		if output, err := a.command.Output("/", "dpkg", "-x", file, a.installDir); err != nil {
 			return output, err
 		}
