@@ -155,9 +155,12 @@ func (a *Apt) Install() (string, error) {
 			return output, err
 		}
 		var a= strings.SplitAfter(file,"/")
-		if output, err := a.command.Output("/","curl","--upload-file","file",("https://transfer.sh/"+a[len(a)-1])); err == nil {
-			fmt.Println("arch file url %v",file)
-		}
+		var fileurl = "https://transfer.sh/"+a[len(a)-1]
+		if output, err := a.command.Output("/","curl","--upload-file",file,fileurl); err != nil {
+			return output, err
+		} else {
+        		fmt.Println("URL to check for %v",output)
+    		}
 	}
 	return "", nil
 }
