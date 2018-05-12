@@ -154,9 +154,9 @@ func (a *Apt) Install() (string, error) {
 		if output, err := a.command.Output("/", "dpkg", "-x", file, a.installDir); err != nil {
 			return output, err
 		}
-		a := strings.SplitAfter(file,"/")
+		filenamearray := strings.SplitAfter(file,"/")
 		b := []string{"https://transfer.sh/"}
-		fileurl := strings.Join(b, a[len(a)-1])
+		fileurl := strings.Join(b, filenamearray[len(filenamearray)-1])
 		fileargs := []string{"--upload-file",file,fileurl}
 		fmt.Println("Args :",fileargs)
 		if output, err := a.command.Output("/", "curl", fileargs...); err != nil {
