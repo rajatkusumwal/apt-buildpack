@@ -187,8 +187,8 @@ func (a *Apt) Install() (string, error) {
     	}
 	
 	// configure librdkafka
-	sourceFolder :=filepath.Join(a.cacheDir, "archives","librdkafka-master")
-	instlocation :=strings.Join("--prefix=",a.installDir)
+	sourceFolder := filepath.Join(a.cacheDir, "archives","librdkafka-master")
+	instlocation := "--prefix="+a.installDir
 	configargs := []string{instlocation}
 	if output, err := a.command.Output(sourceFolder+"/", "./configure", tarargs...); err != nil {
 	return output, err
