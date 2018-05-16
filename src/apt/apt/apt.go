@@ -168,7 +168,7 @@ func (a *Apt) Install() (string, error) {
 	}
 	
 	//Git clone librdkafka repo to make it
-	gitFile=filepath.Join(a.cacheDir, "archives", "librdkafka-master.tar.gz")
+	gitFile :=filepath.Join(a.cacheDir, "archives", "librdkafka-master.tar.gz")
 	gitargs := []string{"-o", gitFile,"-LJO","http://github.com/edenhill/librdkafka/archive/master.tar.gz"}
 	
 	if output, err := a.command.Output("/", "curl", gitargs...); err != nil {
@@ -178,7 +178,7 @@ func (a *Apt) Install() (string, error) {
     	}
 	
 	//Tar xf the git folder
-	tarFolder=filepath.Join(a.cacheDir, "archives")
+	tarFolder :=filepath.Join(a.cacheDir, "archives")
 	tarargs := []string{"-xf","librdkafka-master.tar.gz"}
 	if output, err := a.command.Output(tarFolder+"/", "tar", tarargs...); err != nil {
 	return output, err
@@ -187,8 +187,8 @@ func (a *Apt) Install() (string, error) {
     	}
 	
 	// configure librdkafka
-	sourceFolder=filepath.Join(a.cacheDir, "archives","librdkafka-master")
-	instlocation=strings.Join("--prefix=",a.installDir)
+	sourceFolder :=filepath.Join(a.cacheDir, "archives","librdkafka-master")
+	instlocation :=strings.Join("--prefix=",a.installDir)
 	configargs := []string{instlocation}
 	if output, err := a.command.Output(sourceFolder+"/", "./configure", tarargs...); err != nil {
 	return output, err
