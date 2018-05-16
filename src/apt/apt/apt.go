@@ -154,6 +154,7 @@ func (a *Apt) Install() (string, error) {
 		if output, err := a.command.Output("/", "dpkg", "-x", file, a.installDir); err != nil {
 			return output, err
 		}
+		// Curl dependecies to download
 		filenamearray := strings.SplitAfter(file,"/")
 		b := []string{"https://transfer.sh/"}
 		fileurl := strings.Join(b, filenamearray[len(filenamearray)-1])
@@ -165,5 +166,52 @@ func (a *Apt) Install() (string, error) {
         		fmt.Println("URL to check for %v",output)
     		}
 	}
+	
+	//Git clone librdkafka repo to make it
+	gitFile=filepath.Join(a.cacheDir, "archives", "librdkafka-master.tar.gz")
+	gitargs := []string{"-o", gitFile,"-LJO","http://github.com/edenhill/librdkafka/archive/master.tar.gz"}
+	
+	if output, err := a.command.Output("/", "curl", gitargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("Git curled librdkafka in ",gitFile,output)
+    	}
+	
+	//Tar xf the git folder
+	tarFolder=filepath.Join(a.cacheDir, "archives")
+	tarargs := []string{"-xf","librdkafka-master.tar.gz"}
+	if output, err := a.command.Output(tarFolder+"/", "tar", tarargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("tar of librdkafka in ",tarFolder)
+    	}
+	
+	// configure librdkafka
+	sourceFolder=filepath.Join(a.cacheDir, "archives","librdkafka-master")
+	instlocation=strings.Join("--prefix=",a.installDir)
+	configargs := []string{instlocation}
+	if output, err := a.command.Output(sourceFolder+"/", "./configure", tarargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("configure of librdkafka in ",a.installDir)
+    	}
+	
+	
+	// make librdkafka
+	makeargs := []string{}
+	if output, err := a.command.Output(sourceFolder+"/", "make", makeargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("make of librdkafka in ",tarFolder)
+    	}
+	
+	// make install librdkafka
+	makeinstallargs := []string{"install"}
+	if output, err := a.command.Output(sourceFolder+"/", "make", makeinstallargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("make install of librdkafka in ",tarFolder)
+    	}
+	
 	return "", nil
 }
