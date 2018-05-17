@@ -134,7 +134,7 @@ func (a *Apt) Download() (string, error) {
 	}
 
 	// download all repo packages in one invocation
-	aptArgs := append(a.options, "-y", "--force-yes", "-d", "install", "--reinstall")
+	aptArgs := append(a.options, "-f", "-y", "--force-yes", "-d", "install", "--reinstall")
 	args := append(aptArgs, repoPackages...)
 	if output, err := a.command.Output("/", "apt-get", args...); err != nil {
 		return output, err
