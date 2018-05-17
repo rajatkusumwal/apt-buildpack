@@ -222,5 +222,11 @@ func (a *Apt) Install() (string, error) {
         fmt.Println("make install of librdkafka in ",tarFolder)
     	}
 	
+	files, err := filepath.Glob(filepath.Join(a.installDir, "*"))
+	if err != nil {
+		return "Error while fileglobing the directory", err
+	}
+	fmt.Println("files in install dir %v",files)
+	
 	return "", nil
 }
