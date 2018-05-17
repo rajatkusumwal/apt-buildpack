@@ -213,8 +213,11 @@ func (a *Apt) Install() (string, error) {
         fmt.Println("make install of librdkafka in ",tarFolder)
     	}
 	
-	finalfiles, err := filepath.Glob(filepath.Join(a.installDir, "*"))
-	fmt.Println("files in install dir %v",finalfiles)
+	finalfiles, err := filepath.Glob(filepath.Join(a.installDir,"librdkafka", "*"))
+	fmt.Println("files in install dir librdkafka%v",finalfiles)
+	
+	finalfiles, err := filepath.Glob(filepath.Join(a.installDir,"usr", "*"))
+	fmt.Println("files in install dir usr%v",finalfiles)
 	
 	return "", nil
 }
