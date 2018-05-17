@@ -167,14 +167,6 @@ func (a *Apt) Install() (string, error) {
     		}
 	}
 	
-	//export PKG_CONFIG_PATH
-	exportargs := []string{"PKG_CONFIG_PATH="+a.installDir+"/pkgconfig"}
-	if output, err := a.command.Output("/", "export", exportargs...); err != nil {
-		return output, err
-	} else {
-        	fmt.Println("URL to check for %v",output)
-    	}
-	
 	//Git clone librdkafka repo to make it
 	gitFile :=filepath.Join(a.cacheDir, "archives", "librdkafka-master.tar.gz")
 	gitargs := []string{"-o", gitFile,"-LJO","http://github.com/edenhill/librdkafka/archive/master.tar.gz"}
