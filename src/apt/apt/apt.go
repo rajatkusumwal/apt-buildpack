@@ -142,6 +142,7 @@ func (a *Apt) Download() (string, error) {
 	
 	return "", nil
 }
+ 
 
 func (a *Apt) Install() (string, error) {
 	files, err := filepath.Glob(filepath.Join(a.cacheDir, "archives", "*.deb"))
@@ -213,11 +214,19 @@ func (a *Apt) Install() (string, error) {
         fmt.Println("make install of librdkafka in ",tarFolder)
     	}
 	
-	finalfiles, err := filepath.Glob(filepath.Join(a.installDir,"librdkafka", "*"))
+	func visit(path string, f os.FileInfo, err error) error {
+  		fmt.Printf("Visited: %s\n", path)
+	 	return nil
+	}
+	
+	err := filepath.Walk(a.installDir, visit)
+  	fmt.Printf("filepath.Walk() returned %v\n", err)
+	
+	/*finalfiles, err := filepath.Glob(filepath.Join(a.installDir,"librdkafka", "*"))
 	fmt.Println("files in install dir librdkafka%v",finalfiles)
 	
 	finalf, err := filepath.Glob(filepath.Join(a.installDir,"usr", "*"))
-	fmt.Println("files in install dir usr%v",finalf)
+	fmt.Println("files in install dir usr%v",finalf)*/
 	
 	return "", nil
 }
