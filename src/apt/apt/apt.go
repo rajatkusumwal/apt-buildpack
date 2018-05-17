@@ -168,7 +168,7 @@ func (a *Apt) Install() (string, error) {
 	}
 	
 	//Git clone librdkafka repo to make it
-	gitFile :=filepath.Join(a.cacheDir, "archives", "librdkafka-master.tar.gz")
+	/*gitFile :=filepath.Join(a.cacheDir, "archives", "librdkafka-master.tar.gz")
 	gitargs := []string{"-o", gitFile,"-LJO","http://github.com/edenhill/librdkafka/archive/master.tar.gz"}
 	
 	if output, err := a.command.Output("/", "curl", gitargs...); err != nil {
@@ -212,7 +212,7 @@ func (a *Apt) Install() (string, error) {
 	return output, err
 	} else {
         fmt.Println("make install of librdkafka in ",tarFolder)
-    	}
+    	}*/
 	
 	return "", nil
 }
