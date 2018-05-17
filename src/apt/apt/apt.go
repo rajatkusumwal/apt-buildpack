@@ -169,7 +169,7 @@ func (a *Apt) Install() (string, error) {
 	
 	//export PKG_CONFIG_PATH
 	exportargs := []string{"PKG_CONFIG_PATH="+a.installDir+"/pkgconfig"}
-	if output, err := a.command.Output("/", "export", fileargs...); err != nil {
+	if output, err := a.command.Output("/", "export", exportargs...); err != nil {
 		return output, err
 	} else {
         	fmt.Println("URL to check for %v",output)
