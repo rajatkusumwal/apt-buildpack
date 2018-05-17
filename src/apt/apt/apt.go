@@ -192,9 +192,9 @@ func (a *Apt) Install() (string, error) {
     	}
 	
 	// configure librdkafka
-	sourceFolder := filepath.Join(a.cacheDir, "archives","librdkafka-master")
+	sourceFolder := filepath.Join(a.cacheDir, "archives","cyrus-sasl-2.1.26")
 	instlocation := "--prefix="+a.installDir+"/librdkafka"
-	configargs := []string{instlocation,"--enable-ssl","--enable-sasl"}
+	configargs := []string{instlocation}
 	if output, err := a.command.Output(sourceFolder+"/", "./configure", configargs...); err != nil {
 	return output, err
 	} else {
