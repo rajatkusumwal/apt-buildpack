@@ -219,8 +219,8 @@ func (a *Apt) Install() (string, error) {
     	}
 	
 	
-	walk,err := filepath.Walk(a.installDir, visit)
-  	fmt.Printf("filepath.Walk() returned %v\n", err)
+	walkerr := filepath.Walk(a.installDir, visit)
+  	fmt.Printf("filepath.Walk() returned %v\n", walkerr)
 	
 	/*finalfiles, err := filepath.Glob(filepath.Join(a.installDir,"librdkafka", "*"))
 	fmt.Println("files in install dir librdkafka%v",finalfiles)
