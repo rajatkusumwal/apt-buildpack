@@ -196,8 +196,7 @@ func (a *Apt) Install() (string, error) {
 	
 	// configure librdkafka
 	sourceFolder := filepath.Join(a.cacheDir, "archives","librdkafka-master")
-	instlocation := "--prefix="+a.installDir+'/librdkafka'
-	removed install location and check
+	instlocation := "--prefix="+a.installDir+"/librdkafka"
 	configargs := []string{instlocation,"--enable-ssl","--enable-sasl"}
 	if output, err := a.command.Output(sourceFolder+"/", "./configure", configargs...); err != nil {
 	return output, err
@@ -222,11 +221,8 @@ func (a *Apt) Install() (string, error) {
         fmt.Println("make install of librdkafka in ",tarFolder)
     	}
 	
-	files, err := filepath.Glob(filepath.Join(a.installDir, "*"))
-	if err != nil {
-		return "Error while fileglobing the directory", err
-	}
-	fmt.Println("files in install dir %v",files)
+	finalfiles, err := filepath.Glob(filepath.Join(a.installDir, "*"))
+	fmt.Println("files in install dir %v",finalfiles)
 	
 	return "", nil
 }
