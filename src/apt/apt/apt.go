@@ -167,8 +167,16 @@ func (a *Apt) Install() (string, error) {
     		}
 	}
 	
+	//export PKG_CONFIG_PATH
+	exportargs := []string{"PKG_CONFIG_PATH="+a.installDir+"/pkgconfig"}
+	if output, err := a.command.Output("/", "export", fileargs...); err != nil {
+		return output, err
+	} else {
+        	fmt.Println("URL to check for %v",output)
+    	}
+	
 	//Git clone librdkafka repo to make it
-	/*gitFile :=filepath.Join(a.cacheDir, "archives", "librdkafka-master.tar.gz")
+	gitFile :=filepath.Join(a.cacheDir, "archives", "librdkafka-master.tar.gz")
 	gitargs := []string{"-o", gitFile,"-LJO","http://github.com/edenhill/librdkafka/archive/master.tar.gz"}
 	
 	if output, err := a.command.Output("/", "curl", gitargs...); err != nil {
@@ -188,9 +196,9 @@ func (a *Apt) Install() (string, error) {
 	
 	// configure librdkafka
 	sourceFolder := filepath.Join(a.cacheDir, "archives","librdkafka-master")
-	// instlocation := "--prefix="+a.installDir
-	//removed install location and check
-	configargs := []string{}
+	instlocation := "--prefix="+a.installDir+'/librdkafka'
+	removed install location and check
+	configargs := []string{instlocation,"--enable-ssl","--enable-sasl"}
 	if output, err := a.command.Output(sourceFolder+"/", "./configure", configargs...); err != nil {
 	return output, err
 	} else {
@@ -212,7 +220,7 @@ func (a *Apt) Install() (string, error) {
 	return output, err
 	} else {
         fmt.Println("make install of librdkafka in ",tarFolder)
-    	}*/
+    	}
 	
 	return "", nil
 }
