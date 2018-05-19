@@ -173,7 +173,8 @@ func (a *Apt) Install() (string, error) {
 	}
 	
 	//Set os env to get libray of the above installed deps.
-	enverr := os.Setenv("LD_LIBRARY_PATH","/home/vcap/deps/0/apt/usr")
+	fmt.Println("Install directory is ",a.installDir)
+	enverr := os.Setenv("LD_LIBRARY_PATH",a.installDir)
 	if( enverr!= nil) {
 		fmt.Println("Set env error ",enverr)
 	}
