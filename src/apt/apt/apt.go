@@ -186,7 +186,7 @@ func (a *Apt) Install() (string, error) {
 	if output, err := a.command.Output("/", "curl", krbargs...); err != nil {
 	return output, err
 	} else {
-        fmt.Println("downloaded krb5 tar file in ",gitFile,output)
+        fmt.Println("downloaded krb5 tar file in ",krbFile,output)
     	}
 	
 	//Tar xf the git folder
