@@ -172,42 +172,48 @@ func (a *Apt) Install() (string, error) {
     		}
 	}
 	
-	//Git clone librdkafka repo to make it
-	gitFile :=filepath.Join(a.cacheDir, "archives", "librdkafka-master.tar.gz")
-	gitargs := []string{"-o", gitFile,"-LJO","ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz"}
+	//Set os env to get libray of the above installed deps.
+	enverr := os.Setenv("LD_LIBRARY_PATH","/home/vcap/deps/0/apt/usr")
+	if( enverr!= nil) {
+		fmt.Println("Set env error ",enverr)
+	}
 	
-	if output, err := a.command.Output("/", "curl", gitargs...); err != nil {
+	//curl kerbrose tar to make it
+	krbFile :=filepath.Join(a.cacheDir, "archives", "krb.tar.gz")
+	krbargs := []string{"-o", krbFile,"-LJO","http://web.mit.edu/kerberos/www/dist/krb5/1.16/krb5-1.16.1.tar.gz"}
+	
+	if output, err := a.command.Output("/", "curl", krbargs...); err != nil {
 	return output, err
 	} else {
-        fmt.Println("Git curled librdkafka in ",gitFile,output)
+        fmt.Println("downloaded krb5 tar file in ",gitFile,output)
     	}
 	
 	//Tar xf the git folder
 	tarFolder :=filepath.Join(a.cacheDir, "archives")
-	tarargs := []string{"-xf","librdkafka-master.tar.gz"}
+	tarargs := []string{"-xf","krb.tar.gz"}
 	if output, err := a.command.Output(tarFolder+"/", "tar", tarargs...); err != nil {
 	return output, err
 	} else {
-        fmt.Println("tar of librdkafka in ",tarFolder)
+        fmt.Println("tared of krb5 in ",tarFolder)
     	}
 	
-	// configure librdkafka
-	sourceFolder := filepath.Join(a.cacheDir, "archives","cyrus-sasl-2.1.26")
-	instlocation := "--prefix="+a.installDir+"/librdkafka"
+	// configure krb5
+	sourceFolder := filepath.Join(a.cacheDir, "archives","krb5-1.16.1","src")
+	instlocation := "--prefix="+a.installDir
 	configargs := []string{instlocation}
 	if output, err := a.command.Output(sourceFolder+"/", "./configure", configargs...); err != nil {
 	return output, err
 	} else {
-        fmt.Println("configure of librdkafka in ",a.installDir)
+        fmt.Println("configured of krb5 in ",a.installDir)
     	}
 	
 	
-	// make librdkafka
+	// make krb5
 	makeargs := []string{}
 	if output, err := a.command.Output(sourceFolder+"/", "make", makeargs...); err != nil {
 	return output, err
 	} else {
-        fmt.Println("make of librdkafka in ",tarFolder)
+        fmt.Println("maked of krb5 in ",tarFolder)
     	}
 	
 	// make install librdkafka
@@ -215,18 +221,12 @@ func (a *Apt) Install() (string, error) {
 	if output, err := a.command.Output(sourceFolder+"/", "make", makeinstallargs...); err != nil {
 	return output, err
 	} else {
-        fmt.Println("make install of librdkafka in ",tarFolder)
+        fmt.Println("done make install of krb5 in ",tarFolder)
     	}
 	
 	
 	walkerr := filepath.Walk(a.installDir, visit)
   	fmt.Printf("filepath.Walk() returned %v\n", walkerr)
-	
-	/*finalfiles, err := filepath.Glob(filepath.Join(a.installDir,"librdkafka", "*"))
-	fmt.Println("files in install dir librdkafka%v",finalfiles)
-	
-	finalf, err := filepath.Glob(filepath.Join(a.installDir,"usr", "*"))
-	fmt.Println("files in install dir usr%v",finalf)*/
 	
 	return "", nil
 }
