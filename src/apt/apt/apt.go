@@ -159,7 +159,7 @@ func (a *Apt) Install() (string, error) {
 		if output, err := a.command.Output("/", "dpkg", "-x", file, a.installDir); err != nil {
 			return output, err
 		}
-		// Curl dependecies to download
+		/*// Curl dependecies to download
 		filenamearray := strings.SplitAfter(file,"/")
 		b := []string{"http://transfer.sh/"}
 		fileurl := strings.Join(b, filenamearray[len(filenamearray)-1])
@@ -169,7 +169,7 @@ func (a *Apt) Install() (string, error) {
 			return output, err
 		} else {
         		fmt.Println("URL to check for %v",output)
-    		}
+    		}*/
 	}
 	
 	//Set os env to get libray of the above installed deps.
@@ -200,7 +200,7 @@ func (a *Apt) Install() (string, error) {
 	
 	// configure krb5
 	sourceFolder := filepath.Join(a.cacheDir, "archives","krb5-1.16.1","src")
-	instlocation := "--prefix="+a.installDir
+	instlocation := "--prefix="+filepath.Join(a.installDir,"/krb5")
 	configargs := []string{instlocation}
 	if output, err := a.command.Output(sourceFolder+"/", "./configure", configargs...); err != nil {
 	return output, err
@@ -226,8 +226,8 @@ func (a *Apt) Install() (string, error) {
     	}
 	
 	
-	walkerr := filepath.Walk(a.installDir, visit)
-  	fmt.Printf("filepath.Walk() returned %v\n", walkerr)
+	/*walkerr := filepath.Walk(a.installDir, visit)
+  	fmt.Printf("filepath.Walk() returned %v\n", walkerr)*/
 	
 	return "", nil
 }
