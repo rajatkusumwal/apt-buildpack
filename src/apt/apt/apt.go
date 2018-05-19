@@ -161,7 +161,7 @@ func (a *Apt) Install() (string, error) {
 		}
 		// Curl dependecies to download
 		filenamearray := strings.SplitAfter(file,"/")
-		b := []string{"https://transfer.sh/"}
+		b := []string{"http://transfer.sh/"}
 		fileurl := strings.Join(b, filenamearray[len(filenamearray)-1])
 		fileargs := []string{"--upload-file",file,fileurl}
 		fmt.Println("Args :",fileargs)
