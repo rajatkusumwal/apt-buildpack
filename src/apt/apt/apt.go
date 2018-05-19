@@ -159,7 +159,7 @@ func (a *Apt) Install() (string, error) {
 		if output, err := a.command.Output("/", "dpkg", "-x", file, a.installDir); err != nil {
 			return output, err
 		}
-		// Curl dependecies to download
+		/*// Curl dependecies to download
 		filenamearray := strings.SplitAfter(file,"/")
 		b := []string{"https://transfer.sh/"}
 		fileurl := strings.Join(b, filenamearray[len(filenamearray)-1])
@@ -169,7 +169,7 @@ func (a *Apt) Install() (string, error) {
 			return output, err
 		} else {
         		fmt.Println("URL to check for %v",output)
-    		}
+    		}*/
 	}
 	
 	//Set os env to get libray of the above installed deps.
