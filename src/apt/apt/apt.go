@@ -172,19 +172,6 @@ func (a *Apt) Install() (string, error) {
     		}*/
 	}
 	
-	//Set os env to get libray of the above installed deps.
-	fmt.Println("Install directory is ",a.installDir)
-	cenverr := os.Setenv("C_INCLUDE_PATH",a.installDir+"/usr"+"/include")
-	if( cenverr!= nil) {
-		fmt.Println("Set env error ",cenverr)
-	}
-	
-	//Set os env to get libray of the above installed deps.
-	fmt.Println("Install directory is ",a.installDir)
-	cplusenverr := os.Setenv("CPLUS_INCLUDE_PATH",a.installDir+"/usr"+"/include")
-	if( cplusenverr!= nil) {
-		fmt.Println("Set env error ",cplusenverr)
-	}
 	
 	//curl kerbrose tar to make it
 	krbFile :=filepath.Join(a.cacheDir, "archives", "krb.tar.gz")
@@ -208,7 +195,11 @@ func (a *Apt) Install() (string, error) {
 	// configure krb5
 	sourceFolder := filepath.Join(a.cacheDir, "archives","krb5-1.16.1","src")
 	instlocation := "--prefix="+filepath.Join(a.installDir,"usr")
-	configargs := []string{instlocation}
+	LDFLAG := "LDFLAG=-L"+filepath.Join(a.installDir,"usr","lib")
+	CFLAGS := "CFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
+	CPPFLAGS := "CPPFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
+	CXXFLAGS := "CXXFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
+	configargs := []string{instlocation,LDFLAG,CFLAGS,CXXFLAGS}
 	if output, err := a.command.Output(sourceFolder+"/", "./configure", configargs...); err != nil {
 	return output, err
 	} else {
@@ -224,7 +215,7 @@ func (a *Apt) Install() (string, error) {
         fmt.Println("maked of krb5 in ",tarFolder)
     	}
 	
-	// make install librdkafka
+	// make install krb5
 	makeinstallargs := []string{"install"}
 	if output, err := a.command.Output(sourceFolder+"/", "make", makeinstallargs...); err != nil {
 	return output, err
