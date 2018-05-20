@@ -203,7 +203,7 @@ func (a *Apt) Install() (string, error) {
 	CFLAGS := "CFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
 	CPPFLAGS := "CPPFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
 	CXXFLAGS := "CXXFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
-	configargs := []string{instlocation,LDFLAG,CFLAGS,CXXFLAGS}
+	configargs := []string{instlocation,LDFLAG,CFLAGS,CPPFLAGS,CXXFLAGS}
 	if output, err := a.command.Output(sourceFolder+"/", "./configure", configargs...); err != nil {
 	return output, err
 	} else {
