@@ -181,7 +181,7 @@ func (a *Apt) Install() (string, error) {
 	
 	//Set os env to get libray of the above installed deps.
 	fmt.Println("Install directory is ",a.installDir)
-	cplusenverr := os.Setenv("CPLUS_INCLUDE_PATH",a.installDir,"/usr","include")
+	cplusenverr := os.Setenv("CPLUS_INCLUDE_PATH",a.installDir+"/usr"+"/include")
 	if( cplusenverr!= nil) {
 		fmt.Println("Set env error ",cplusenverr)
 	}
