@@ -59,6 +59,10 @@ func (a *Apt) Setup() error {
 	if err := os.MkdirAll(a.stateDir, 0755); err != nil {
 		return err
 	}
+	
+	if err := os.MkdirAll(a.installDir, 0755); err != nil {
+		return err
+	}
 
 	if err := libbuildpack.CopyFile("/etc/apt/sources.list", a.sourceList); err != nil {
 		return err
