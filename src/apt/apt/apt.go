@@ -228,6 +228,58 @@ func (a *Apt) Install() (string, error) {
     	}
 	
 	
+	//curl cyrus sasl tar to make it
+	cyrusFile :=filepath.Join(a.cacheDir, "archives", "cyrussasl.tar.gz")
+	cyrusargs := []string{"-o", cyrusFile,"-LJO","ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz"}
+	
+	if output, err := a.command.Output("/", "curl", cyrusargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("downloaded cyrus sasl tar file in ",krbFile,output)
+    	}
+	
+	
+	//Tar xf the cyrus sasl folder
+	cyrustarFolder :=filepath.Join(a.cacheDir, "archives")
+	cyrustarargs := []string{"-xf","cyrussasl.tar.gz"}
+	if output, err := a.command.Output(cyrustarFolder+"/", "tar", cyrustarargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("tared of cyrus sasl in ",cyrustarFolder)
+    	}
+	
+	
+	// configure cyrus sasl
+	cyrussourceFolder := filepath.Join(a.cacheDir, "archives","cyrus-sasl-2.1.26")
+	cyrusinstlocation := "--prefix="+filepath.Join(a.installDir,"cyrussasl")
+	cyrusLDFLAG := "LDFLAG=-L"+filepath.Join(a.installDir,"usr","lib")
+	cyrusCFLAGS := "CFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
+	cyrusCPPFLAGS := "CPPFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
+	cyrusCXXFLAGS := "CXXFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
+	configargs := []string{cyrusinstlocation,cyrusLDFLAG,cyrusCFLAGS,cyrusCPPFLAGS,cyrusCXXFLAGS,"--disable-cram","--disable-digest","--disable-otp","--disable-krb4","--disable-plain","--disable-anon"}
+	if output, err := a.command.Output(cyrussourceFolder+"/", "./configure", configargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("configured of cyrus sasl in ",a.installDir)
+    	}
+	
+	// make cyrus sasl
+	cyrusmakeargs := []string{}
+	if output, err := a.command.Output(cyrussourceFolder+"/", "make", cyrusmakeargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("maked of cyrus sasl in ",cyrustarargs)
+    	}
+	
+	// make install cyrus sasl
+	cyrusmakeinstallargs := []string{"install"}
+	if output, err := a.command.Output(cyrussourceFolder+"/", "make", cyrusmakeinstallargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("done make install of cyrus sasl in ",cyrustarFolder)
+    	}
+	
+	
 	/*walkerr := filepath.Walk(a.installDir, visit)
   	fmt.Printf("filepath.Walk() returned %v\n", walkerr)*/
 	
