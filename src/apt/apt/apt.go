@@ -207,7 +207,7 @@ func (a *Apt) Install() (string, error) {
 	
 	// configure krb5
 	sourceFolder := filepath.Join(a.cacheDir, "archives","krb5-1.16.1","src")
-	instlocation := "--prefix="+filepath.Join(a.installDir)
+	instlocation := "--prefix="+filepath.Join(a.installDir,"usr")
 	configargs := []string{instlocation}
 	if output, err := a.command.Output(sourceFolder+"/", "./configure", configargs...); err != nil {
 	return output, err
