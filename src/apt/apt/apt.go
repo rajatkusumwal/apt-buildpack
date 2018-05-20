@@ -174,9 +174,16 @@ func (a *Apt) Install() (string, error) {
 	
 	//Set os env to get libray of the above installed deps.
 	fmt.Println("Install directory is ",a.installDir)
-	enverr := os.Setenv("LD_LIBRARY_PATH",a.installDir)
+	cenverr := os.Setenv("C_INCLUDE_PATH",a.installDir+"/usr"+"/include")
 	if( enverr!= nil) {
-		fmt.Println("Set env error ",enverr)
+		fmt.Println("Set env error ",cenverr)
+	}
+	
+	//Set os env to get libray of the above installed deps.
+	fmt.Println("Install directory is ",a.installDir)
+	cplusenverr := os.Setenv("CPLUS_INCLUDE_PATH",a.installDir,"/usr","include")
+	if( enverr!= nil) {
+		fmt.Println("Set env error ",cplusenverr)
 	}
 	
 	//curl kerbrose tar to make it
@@ -200,7 +207,7 @@ func (a *Apt) Install() (string, error) {
 	
 	// configure krb5
 	sourceFolder := filepath.Join(a.cacheDir, "archives","krb5-1.16.1","src")
-	instlocation := "--prefix="+filepath.Join(a.installDir,"/krb5")
+	instlocation := "--prefix="+filepath.Join(a.installDir)
 	configargs := []string{instlocation}
 	if output, err := a.command.Output(sourceFolder+"/", "./configure", configargs...); err != nil {
 	return output, err
