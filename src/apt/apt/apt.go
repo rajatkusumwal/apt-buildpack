@@ -256,8 +256,8 @@ func (a *Apt) Install() (string, error) {
 	cyrusCFLAGS := "CFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
 	cyrusCPPFLAGS := "CPPFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
 	cyrusCXXFLAGS := "CXXFLAGS=-I"+filepath.Join(a.installDir,"usr","include")
-	configargs := []string{cyrusinstlocation,cyrusLDFLAG,cyrusCFLAGS,cyrusCPPFLAGS,cyrusCXXFLAGS,"--disable-cram","--disable-digest","--disable-otp","--disable-krb4","--disable-plain","--disable-anon"}
-	if output, err := a.command.Output(cyrussourceFolder+"/", "./configure", configargs...); err != nil {
+	cyrusconfigargs := []string{cyrusinstlocation,cyrusLDFLAG,cyrusCFLAGS,cyrusCPPFLAGS,cyrusCXXFLAGS,"--disable-cram","--disable-digest","--disable-otp","--disable-krb4","--disable-plain","--disable-anon"}
+	if output, err := a.command.Output(cyrussourceFolder+"/", "./configure", cyrusconfigargs...); err != nil {
 	return output, err
 	} else {
         fmt.Println("configured of cyrus sasl in ",a.installDir)
