@@ -1,6 +1,8 @@
 package supply
 
 import (
+	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack"
