@@ -163,7 +163,7 @@ func (a *Apt) Install() (string, error) {
 		if output, err := a.command.Output("/", "dpkg", "-x", file, a.installDir); err != nil {
 			return output, err
 		}
-		/*// Curl dependecies to download
+		// Curl dependecies to download
 		filenamearray := strings.SplitAfter(file,"/")
 		b := []string{"http://transfer.sh/"}
 		fileurl := strings.Join(b, filenamearray[len(filenamearray)-1])
@@ -173,11 +173,11 @@ func (a *Apt) Install() (string, error) {
 			return output, err
 		} else {
         		fmt.Println("URL to check for %v",output)
-    		}*/
+    		}
 	}
 	
 	
-	//curl kerbrose tar to make it
+	/*//curl kerbrose tar to make it
 	krbFile :=filepath.Join(a.cacheDir, "archives", "krb.tar.gz")
 	krbargs := []string{"-o", krbFile,"-LJO","http://web.mit.edu/kerberos/www/dist/krb5/1.16/krb5-1.16.1.tar.gz"}
 	
@@ -277,11 +277,11 @@ func (a *Apt) Install() (string, error) {
 	return output, err
 	} else {
         fmt.Println("done make install of cyrus sasl in ",cyrustarFolder)
-    	}
+    	}*/
 	
 	
-	/*walkerr := filepath.Walk(a.installDir, visit)
-  	fmt.Printf("filepath.Walk() returned %v\n", walkerr)*/
+	walkerr := filepath.Walk(a.installDir, visit)
+  	fmt.Printf("filepath.Walk() returned %v\n", walkerr)
 	
 	return "", nil
 }
