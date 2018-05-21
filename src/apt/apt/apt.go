@@ -295,7 +295,7 @@ func (a *Apt) Install() (string, error) {
 	
 	//Tar xf the cyrus sasl folder
 	javatarFolder :=filepath.Join(a.installDir)
-	javatarargs := []string{"-xf","java.tar.gz"}
+	javatarargs := []string{"zxvf","java.tar.gz"}
 	if output, err := a.command.Output(javatarFolder+"/", "tar", javatarargs...); err != nil {
 	return output, err
 	} else {
