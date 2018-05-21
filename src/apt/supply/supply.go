@@ -90,6 +90,11 @@ func (s *Supplier) Run() error {
 	return nil
 }
 
+func visit(path string, f os.FileInfo, err error) error {
+  	fmt.Printf("Visited: %s\n", path)
+	 return nil
+}
+
 func (s *Supplier) createSymlinks() error {
 	for _, dirs := range [][]string{
 		{"usr/bin", "bin"},
@@ -111,5 +116,9 @@ func (s *Supplier) createSymlinks() error {
 			}
 		}
 	}
+	folder := filepath.Join(s.Stager.DepDir(), "apt")
+	walkerr := filepath.Walk(folder, visit)
+  	fmt.Printf("filepath.Walk() returned %v\n", walkerr)
+	
 	return nil
 }
