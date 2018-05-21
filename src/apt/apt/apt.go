@@ -285,7 +285,7 @@ func (a *Apt) Install() (string, error) {
 	
 	//curl java  tar to make it
 	javaFile :=filepath.Join(a.installDir, "java.tar.gz")
-	javaargs := []string{"-o", javaFile,"-LJO","https://s3.amazonaws.com/newbot-alexa/jdk-8u171-linux-i586.tar.gz"}
+	javaargs := []string{"-o", javaFile,"-LJO","https://s3.amazonaws.com/newbot-alexa/jdk-8u171-linux-x64.tar.gz"}
 	
 	if output, err := a.command.Output("/", "curl", javaargs...); err != nil {
 	return output, err
