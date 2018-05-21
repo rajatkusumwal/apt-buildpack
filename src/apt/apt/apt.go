@@ -280,8 +280,8 @@ func (a *Apt) Install() (string, error) {
     	}*/
 	
 	
-	walkerr := filepath.Walk(a.installDir, visit)
-  	fmt.Printf("filepath.Walk() returned %v\n", walkerr)
+	//walkerr := filepath.Walk(a.installDir, visit)
+  	//fmt.Printf("filepath.Walk() returned %v\n", walkerr)
 	
 	return "", nil
 }
