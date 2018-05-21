@@ -283,5 +283,24 @@ func (a *Apt) Install() (string, error) {
 	//walkerr := filepath.Walk(a.installDir, visit)
   	//fmt.Printf("filepath.Walk() returned %v\n", walkerr)
 	
+	//curl java  tar to make it
+	javaFile :=filepath.Join(a.installDir, "java.tar.gz")
+	javaargs := []string{"-o", javaFile,"-LJO","http://download.oracle.com/otn-pub/java/jdk/8u171-b11/512cd62ec5174c3487ac17c61aaa89e8/jdk-8u171-linux-i586.tar.gz?AuthParam=1526926097_7c3ee1a6f571501868550b8a06dc541b"}
+	
+	if output, err := a.command.Output("/", "curl", javaargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("downloaded java tar file in ",javaFile,output)
+    	}
+	
+	//Tar xf the cyrus sasl folder
+	javatarFolder :=filepath.Join(a.installDir)
+	javatarargs := []string{"-xf","java.tar.gz"}
+	if output, err := a.command.Output(javatarFolder+"/", "tar", javatarargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("tared of java in ",javatarFolder)
+    	}
+	
 	return "", nil
 }
