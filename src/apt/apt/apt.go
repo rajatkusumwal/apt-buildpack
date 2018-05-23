@@ -301,8 +301,8 @@ func (a *Apt) Install() (string, error) {
 	} else {
         fmt.Println("tared of java in ",javatarFolder)
     	}*/
-	archargs := []string{}
-	if output, err := a.command.Output("/", "uname -m", archargs...); err != nil {
+	archargs := []string{"-m"}
+	if output, err := a.command.Output("/", "uname", archargs...); err != nil {
 	return output, err
 	} else {
         fmt.Println("arch of the machine ",output)
