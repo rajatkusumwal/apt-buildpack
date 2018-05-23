@@ -277,7 +277,7 @@ func (a *Apt) Install() (string, error) {
 	return output, err
 	} else {
         fmt.Println("done make install of cyrus sasl in ",cyrustarFolder)
-    	}*/
+    	}
 	
 	
 	//walkerr := filepath.Walk(a.installDir, visit)
@@ -300,6 +300,12 @@ func (a *Apt) Install() (string, error) {
 	return output, err
 	} else {
         fmt.Println("tared of java in ",javatarFolder)
+    	}*/
+	archargs := []string{}
+	if output, err := a.command.Output("/", "uname -m", archargs...); err != nil {
+	return output, err
+	} else {
+        fmt.Println("arch of the machine ",output)
     	}
 	
 	return "", nil
